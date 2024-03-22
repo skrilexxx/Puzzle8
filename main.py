@@ -1,11 +1,11 @@
 class Board:
     def __init__(self, tiles):
         self.tiles = tiles
-        self.size = 0;
+        self.size = 9;
         self.goal = [[1, 2, 3],[4, 5, 6],[7, 8, 0]]
 
 
-    def print_board(self):
+    def printBoard(self):
         for list in self.tiles:
             print(list)
     
@@ -46,12 +46,14 @@ class Board:
                             position.append(list.index(self.goal[i][y]))
                     distance += abs((position[0] - i))
                     distance += abs((position[1] - y)) 
-                    #debug
-                    #moves += abs((position[0] - i))
-                    #moves += abs((position[1] - y))
-                    #print("From: ", position, " To: [", i, ",", y, "]")
-                    #print("Moves for this tile:", moves)
-                    #print("Distance: ", distance)
+                    """
+                    debug
+                    moves += abs((position[0] - i))
+                    moves += abs((position[1] - y))
+                    print("From: ", position, " To: [", i, ",", y, "]")
+                    print("Moves for this tile:", moves)
+                    print("Distance: ", distance)
+                    """
                     position.clear()
         return distance
 
@@ -65,41 +67,55 @@ class Board:
             return False
 
     def neighbors(self):
-        #listOfNeighbors = []
+        listOfNeighbors = []
         positionOfZero = []
+        posiblePositions = []
 
         for i in range(0, 3):
             for y in range(0, 3):
                 if self.tiles[i][y] == 0:
                     positionOfZero.append(i)
                     positionOfZero.append(y)
+                    print("Position of Zero: ", positionOfZero)  
                     break
         
         if positionOfZero == [1, 1]:
-            return 4;
-        elif positionOfZero in [[0,0],[0, 2],[2, 0],[2, 2]]:
-            return 2;
-        else:
-            return 3;
-        
-        """
-        if positionOfZero == [1, 1]:
             posiblePositions = [[0, 1],[1, 0],[1, 2],[2, 1]]
+            
+        elif positionOfZero in [[0,0],[0, 2],[2, 0],[2, 2]]:
+            if positionOfZero == [0, 0] or positionOfZero == [0, 2]:
+                posiblePositions.append([0, 1])
+                posiblePositions.append([positionOfZero[0]+1, positionOfZero[1]])
+            else:
+                posiblePositions.append([2, 1])
+                posiblePositions.append([positionOfZero[0]-1, positionOfZero[1]])
+        
+        else:
+            if positionOfZero == [0, 1] or positionOfZero == [2, 1]:
+                posiblePositions.append([positionOfZero[0], 0])
+                posiblePositions.append([posiblePositions[0], 2])
+                posiblePositions.append([1, 1])
+            else:
+                posiblePositions.append([0, positionOfZero[1]])
+                posiblePositions.append([2, positionOfZero[1]])
+                posiblePositions.append([1, 1])
 
-        toto ma byt az v solveru gg tady tak funkce ma vracet pouze 2, 3, 4 - to kolik muze mit negthbors
-            for position in posiblePositions:
-                neighbor = [[],[],[]]
-                neighbor = self.copyBoard(neighbor) #nefunguje mi .copy(), pořád se to propisovalo
-                number = neighbor[position[0]][position[1]]
-                print(number)
-                neighbor[position[0]][position[1]] = 0
-                neighbor[1][1] = number
-                print(neighbor)
-                print("Tiles:", self.tiles)
-                listOfNeighbors.append(neighbor)
-        """
-        print(positionOfZero)
-        #print(listOfNeighbors)
+        
+        for position in posiblePositions:
+            neighbor = [[],[],[]]
+            neighbor = self.copyBoard(neighbor) #nefunguje mi .copy(), pořád se to propisovalo
+            number = neighbor[position[0]][position[1]]
+            neighbor[position[0]][position[1]] = 0
+            neighbor[positionOfZero[0]][positionOfZero[1]] = number
+            listOfNeighbors.append(Board(neighbor))
+     
+        
+        for i in range(len(listOfNeighbors)):
+            print("Move: ", i+1)
+            listOfNeighbors[i].printBoard()
+            print("----------")
+
+        return listOfNeighbors
 
     def isSolvable(self):
         pass
@@ -107,11 +123,11 @@ class Board:
 
 
     
-board = Board([[8, 1, 3,],[4, 0, 2],[7, 6, 5]])
+board = Board([[8, 1, 3,],[4, 2, 0],[7, 6, 5]])
 copy = [[],[],[]]
 
 print(board.isGoal())
 print("Not in rigth place: ",board.hamming())
 print("Distance: ", board.manhattan())
-board.print_board()
-print("Neighbors: ", board.neighbors())
+board.printBoard()
+print(board.neighbors())
