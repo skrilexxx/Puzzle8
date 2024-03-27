@@ -118,16 +118,39 @@ class Board:
         return listOfNeighbors
 
     def isSolvable(self):
-        pass
+        inversions = 0
+        allTiles = []
+        
+        for row in self.tiles:
+            for number in row:
+                allTiles.append(number)
+        
+        for j in allTiles:
+            for i in range(0, len(allTiles)):
+                if allTiles[i] < j and i > allTiles.index(j) and allTiles[i] != 0 and j != 0:
+                    #print("Number one:", allTiles[i], " Position:", i )
+                    #print("Number two", j, " Position: ", allTiles.index(j))
+                    inversions += 1
+        
+        #print(inversions)
+        print(allTiles)
+        
+        if inversions%2 == 0:
+            return True
+        else:
+            return False
+
 
 
 
     
-board = Board([[8, 1, 3,],[4, 2, 0],[7, 6, 5]])
-copy = [[],[],[]]
+board = Board([[8, 1, 3,],[4, 0, 2],[7, 6, 5]])
+board2 = Board([[1, 2, 3],[4, 5, 6],[8, 7, 0]])
 
 print(board.isGoal())
 print("Not in rigth place: ",board.hamming())
 print("Distance: ", board.manhattan())
 board.printBoard()
-print(board.neighbors())
+board.neighbors()
+print("Is board 1 solvable ?: ", board.isSolvable())
+print("Is board 2 solvable ?: ", board2.isSolvable())
