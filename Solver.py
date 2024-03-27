@@ -2,19 +2,20 @@ from Board import *
 
 class Solver:
 
-    def __init__(self, input, goal):
+    def __init__(self, input):
         self.input = input
-        self.goal = goal
         self.board = Board(input)
+        self.solution = []
 
-    def solver(self, boardInitial):
+    def solver(self):
         pass
 
     def moves(self):
         pass
 
     def solution(self):
-        pass
+        return self.solution
 
 
-test1 = Solver([[8, 1, 3],[4, 0, 2],[7, 6, 5]], [[1, 2, 3],[4, 5, 6],[7, 8, 0]])
+test1 = Solver([[8, 1, 3],[4, 0, 2],[7, 6, 5]])
+print(test1.solver())

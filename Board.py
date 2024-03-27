@@ -8,14 +8,14 @@ class Board:
     def printBoard(self):
         for list in self.tiles:
             print(list)
-    
+
     def tileAt(self, i, j):
         return self.tiles[i][j]
-    
-    
+
+
     def size(self):
         return self.size
-    
+
     def copyBoard(self, copyBoard):
         for i in range(0, 3):
             for y in range(0, 3):
@@ -31,7 +31,7 @@ class Board:
                     if self.tiles[i][y] != 0:
                         notInPlace += 1
         return notInPlace
-    
+
     # sum of Manhattan is a sum of distances between each tile and goal position
     def manhattan(self):
         distance = 0
@@ -45,7 +45,7 @@ class Board:
                             position.append(self.tiles.index(list))
                             position.append(list.index(self.goal[i][y]))
                     distance += abs((position[0] - i))
-                    distance += abs((position[1] - y)) 
+                    distance += abs((position[1] - y))
                     """
                     debug
                     moves += abs((position[0] - i))
@@ -76,12 +76,12 @@ class Board:
                 if self.tiles[i][y] == 0:
                     positionOfZero.append(i)
                     positionOfZero.append(y)
-                    print("Position of Zero: ", positionOfZero)  
+                    #print("Position of Zero: ", positionOfZero)
                     break
-        
+
         if positionOfZero == [1, 1]:
             posiblePositions = [[0, 1],[1, 0],[1, 2],[2, 1]]
-            
+
         elif positionOfZero in [[0,0],[0, 2],[2, 0],[2, 2]]:
             if positionOfZero == [0, 0] or positionOfZero == [0, 2]:
                 posiblePositions.append([0, 1])
@@ -89,7 +89,7 @@ class Board:
             else:
                 posiblePositions.append([2, 1])
                 posiblePositions.append([positionOfZero[0]-1, positionOfZero[1]])
-        
+
         else:
             if positionOfZero == [0, 1] or positionOfZero == [2, 1]:
                 posiblePositions.append([positionOfZero[0], 0])
@@ -100,7 +100,7 @@ class Board:
                 posiblePositions.append([2, positionOfZero[1]])
                 posiblePositions.append([1, 1])
 
-        
+
         for position in posiblePositions:
             neighbor = [[],[],[]]
             neighbor = self.copyBoard(neighbor) #nefunguje mi .copy(), pořád se to propisovalo
@@ -108,8 +108,8 @@ class Board:
             neighbor[position[0]][position[1]] = 0
             neighbor[positionOfZero[0]][positionOfZero[1]] = number
             listOfNeighbors.append(Board(neighbor))
-     
-        
+
+
         for i in range(len(listOfNeighbors)):
             print("Move: ", i+1)
             listOfNeighbors[i].printBoard()
@@ -120,27 +120,27 @@ class Board:
     def isSolvable(self):
         inversions = 0
         allTiles = []
-        
+
         for row in self.tiles:
             for number in row:
                 allTiles.append(number)
-        
+
         for j in allTiles:
             for i in range(0, len(allTiles)):
                 if allTiles[i] < j and i > allTiles.index(j) and allTiles[i] != 0 and j != 0:
                     #print("Number one:", allTiles[i], " Position:", i )
                     #print("Number two", j, " Position: ", allTiles.index(j))
                     inversions += 1
-        
+
         #print(inversions)
         print(allTiles)
-        
+
         if inversions%2 == 0:
             return True
         else:
             return False
 
-    
+"""
 board = Board([[8, 1, 3,],[4, 0, 2],[7, 6, 5]])
 
 print(board.isGoal())
@@ -152,3 +152,5 @@ print("Is board 1 solvable ?: ", board.isSolvable())
 
 #board2 = Board([[1, 2, 3],[4, 5, 6],[8, 7, 0]])
 #print("Is board 2 solvable ?: ", board2.isSolvable())
+
+"""
