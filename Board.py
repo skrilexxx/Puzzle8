@@ -79,6 +79,7 @@ class Board:
                     #print("Position of Zero: ", positionOfZero)
                     break
 
+
         if positionOfZero == [1, 1]:
             posiblePositions = [[0, 1],[1, 0],[1, 2],[2, 1]]
 
@@ -93,15 +94,16 @@ class Board:
         else:
             if positionOfZero == [0, 1] or positionOfZero == [2, 1]:
                 posiblePositions.append([positionOfZero[0], 0])
-                posiblePositions.append([posiblePositions[0], 2])
+                posiblePositions.append([positionOfZero[0], 2])
                 posiblePositions.append([1, 1])
             else:
                 posiblePositions.append([0, positionOfZero[1]])
                 posiblePositions.append([2, positionOfZero[1]])
                 posiblePositions.append([1, 1])
 
-
+        #print("Posible positions: ", posiblePositions)
         for position in posiblePositions:
+            #print("Position: ", position)
             neighbor = [[],[],[]]
             neighbor = self.copyBoard(neighbor) #nefunguje mi .copy(), pořád se to propisovalo
             number = neighbor[position[0]][position[1]]
@@ -109,12 +111,13 @@ class Board:
             neighbor[positionOfZero[0]][positionOfZero[1]] = number
             listOfNeighbors.append(Board(neighbor))
 
-
+        """
         for i in range(len(listOfNeighbors)):
             print("Move: ", i+1)
             listOfNeighbors[i].printBoard()
             print("----------")
-
+        """
+        positionOfZero.clear()
         return listOfNeighbors
 
     def isSolvable(self):
@@ -133,7 +136,7 @@ class Board:
                     inversions += 1
 
         #print(inversions)
-        print(allTiles)
+        #print(allTiles)
 
         if inversions%2 == 0:
             return True
