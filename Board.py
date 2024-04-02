@@ -2,8 +2,6 @@ class Board:
     def __init__(self, tiles):
         self.tiles = tiles
         self.size = 9;
-        self.goal = [[1, 2, 3],[4, 5, 6],[7, 8, 0]]
-
 
     def printBoard(self):
         for list in self.tiles:
@@ -23,27 +21,27 @@ class Board:
         return copyBoard
 
     # number of tiles out of place
-    def hamming(self):
+    def hamming(self, goalBoard):
         notInPlace = 0
         for i in range (0, 3):
             for y in range (0, 3):
-                if self.tiles[i][y] != self.goal[i][y]:
+                if self.tiles[i][y] != goalBoard[i][y]:
                     if self.tiles[i][y] != 0:
                         notInPlace += 1
         return notInPlace
 
     # sum of Manhattan is a sum of distances between each tile and goal position
-    def manhattan(self):
+    def manhattan(self, goalBoard):
         distance = 0
         position = []
         for i in range (0, 3):
             for y in range (0, 3):
-                if self.goal[i][y] != self.tiles[i][y] and self.goal[i][y] != 0:
+                if goalBoard[i][y] != self.tiles[i][y] and goalBoard[i][y] != 0:
                     #moves = 0
                     for list in self.tiles:
-                        if self.goal[i][y] in list:
+                        if goalBoard[i][y] in list:
                             position.append(self.tiles.index(list))
-                            position.append(list.index(self.goal[i][y]))
+                            position.append(list.index(goalBoard[i][y]))
                     distance += abs((position[0] - i))
                     distance += abs((position[1] - y))
                     """
@@ -60,24 +58,26 @@ class Board:
 
 
     # is this board the goal board? - jde to napsat na 1 line mozna
-    def isGoal(self):
-        if self.tiles == self.goal:
+    def isGoal(self, goalBoard):
+        if self.tiles == goalBoard:
             return True
         else:
             return False
 
-    def neighbors(self):
-        listOfNeighbors = []
-        positionOfZero = []
-        posiblePositions = []
 
+    # return the position of the empty tile
+    def getEmpty(self):
         for i in range(0, 3):
             for y in range(0, 3):
                 if self.tiles[i][y] == 0:
-                    positionOfZero.append(i)
-                    positionOfZero.append(y)
-                    #print("Position of Zero: ", positionOfZero)
-                    break
+                    return [i, y]
+
+    def neighbors(self):
+        listOfNeighbors = []
+        positionOfZero = self.getEmpty()
+        posiblePositions = []
+
+
 
 
         if positionOfZero == [1, 1]:

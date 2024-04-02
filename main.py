@@ -1,21 +1,31 @@
 from Board import Board
-from Solver import Solver
-
-
+from Astar import Astar
 
 
 board = Board([[8, 1, 3,],[4, 0, 2],[7, 6, 5]])
+goal = [[1, 2, 3],[4, 5, 6],[7, 8, 0]]
+goalBoard = Board(goal)
 
-print(board.isGoal())
-print("Not in rigth place: ",board.hamming())
-print("Distance: ", board.manhattan())
+star = Astar(board, goalBoard, True)
+
+result = star.run()
+
+if result is None:
+    print("No solution")
+else:
+    result.printOutput()
+
+
+
+"""
+print(board.isGoal(goal))
+print("Not in rigth place: ",board.hamming(goal))
+print("Distance: ", board.manhattan(goal))
+print("Empty tile at: ", board.getEmpty())
 board.printBoard()
 board.neighbors()
 print("Is board 1 solvable ?: ", board.isSolvable())
 
-#board2 = Board([[1, 2, 3],[4, 5, 6],[8, 7, 0]])
-#print("Is board 2 solvable ?: ", board2.isSolvable())
-
-test1 = Solver([[8, 1, 3],[4, 0, 2],[7, 6, 5]])
-#test1.bruteForce([test1.board])
-test1.solver()
+board2 = Board([[1, 2, 3],[4, 5, 6],[8, 7, 0]])
+print("Is board 2 solvable ?: ", board2.isSolvable())
+"""
