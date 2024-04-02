@@ -90,7 +90,3 @@ class Solver:
 
     def solution(self):
         return self.solution
-
-test1 = Solver([[8, 1, 3],[4, 0, 2],[7, 6, 5]])
-#test1.bruteForce([test1.board])
-test1.solver()
