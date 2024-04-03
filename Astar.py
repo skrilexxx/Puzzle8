@@ -21,22 +21,21 @@ class Astar:
         visited = []
         nodesExplored = 1
         priorityQueue = PriorityQueue() #vytvoření queue
-        priorityQueue.put((self.priority(self.startBoard, 0), 0, self.startBoard.tiles, [])) #přidání startovního stavu do queue (priority, depth, board, solution)
+        priorityQueue.put((self.priority(self.startBoard, 0), 0, self.startBoard.tiles)) #přidání startovního stavu do queue (priority, depth, board)
 
         while not priorityQueue.empty():
-            priority, depth, board, solution = priorityQueue.get()
+            priority, depth, board = priorityQueue.get()
+            print(priority, depth, board)
             newBoard = Board(board)
-
             if newBoard.isGoal(self.goalBoard.tiles): #pokud je dosaženo cíle
-                return Output(nodesExplored, depth, solution) #vrátí výstup
+                return Output(nodesExplored, depth) #vrátí výstup
 
-        prevEmpty = newBoard.getEmpty() #uložení pozice prázdného políčka
-        visited.append(board) #přidání boardu do navštívených
+            visited.append(board) #přidání boardu do navštívených
 
-        for neighbor in newBoard.neighbors():
-            if neighbor not in visited:
-                nodesExplored += 1
-                nDepth = depth + 1
-                priorityQueue.put((self.priority(neighbor, nDepth), nDepth, neighbor.tiles, neighbor.tiles))
+            for neighbor in newBoard.neighbors():
+                if neighbor not in visited:
+                    nodesExplored += 1
+                    nDepth = depth + 1
+                    priorityQueue.put((self.priority(neighbor, nDepth), nDepth, neighbor.tiles))
 
-            return None
+        return None
