@@ -15,17 +15,3 @@ if result is None:
     print("No solution")
 else:
     result.printOutput()
-
-
-
-"""
-print(board.isGoal(goal))
-print("Not in rigth place: ",board.hamming(goal))
-print("Distance: ", board.manhattan(goal))
-print("Empty tile at: ", board.getEmpty())
-board.printBoard()
-board.neighbors()
-print("Is board 1 solvable ?: ", board.isSolvable())
-
-print("Is board 2 solvable ?: ", board2.isSolvable())
-"""

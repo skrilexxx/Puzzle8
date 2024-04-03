@@ -44,14 +44,7 @@ class Board:
                             position.append(list.index(goalBoard[i][y]))
                     distance += abs((position[0] - i))
                     distance += abs((position[1] - y))
-                    """
-                    debug
-                    moves += abs((position[0] - i))
-                    moves += abs((position[1] - y))
-                    print("From: ", position, " To: [", i, ",", y, "]")
-                    print("Moves for this tile:", moves)
-                    print("Distance: ", distance)
-                    """
+
                     position.clear()
         return distance
 
@@ -101,9 +94,7 @@ class Board:
                 posiblePositions.append([2, positionOfZero[1]])
                 posiblePositions.append([1, 1])
 
-        #print("Posible positions: ", posiblePositions)
         for position in posiblePositions:
-            #print("Position: ", position)
             neighbor = [[],[],[]]
             neighbor = self.copyBoard(neighbor) #nefunguje mi .copy(), pořád se to propisovalo
             number = neighbor[position[0]][position[1]]
@@ -111,12 +102,6 @@ class Board:
             neighbor[positionOfZero[0]][positionOfZero[1]] = number
             listOfNeighbors.append(Board(neighbor))
 
-        """
-        for i in range(len(listOfNeighbors)):
-            print("Move: ", i+1)
-            listOfNeighbors[i].printBoard()
-            print("----------")
-        """
         positionOfZero.clear()
         return listOfNeighbors
 
@@ -131,12 +116,7 @@ class Board:
         for j in allTiles:
             for i in range(0, len(allTiles)):
                 if allTiles[i] < j and i > allTiles.index(j) and allTiles[i] != 0 and j != 0:
-                    #print("Number one:", allTiles[i], " Position:", i )
-                    #print("Number two", j, " Position: ", allTiles.index(j))
                     inversions += 1
-
-        #print(inversions)
-        #print(allTiles)
 
         if inversions%2 == 0:
             return True

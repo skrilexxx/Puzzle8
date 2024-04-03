@@ -20,5 +20,5 @@ class Output:
 
             print("")
             print("Solution found")
-            print("Nodes Explored: ", self.nodes)
+            print("Nodes explored: ", self.nodes)
             print("Depth of the search: ", self.depth)
