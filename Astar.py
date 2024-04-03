@@ -1,6 +1,7 @@
 from queue import PriorityQueue
 from Board import Board
 from Output import Output
+import copy
 
 class Astar:
 
@@ -17,18 +18,27 @@ class Astar:
             return depth + board.hamming(self.goalBoard.tiles)
 
 
+    def addPath(self, path, board):
+        nPath = copy.deepcopy(path)
+        nPath.append(board.tiles)
+        return nPath
+
+
     def run(self):
         visited = []
+        path = []
         nodesExplored = 1
         priorityQueue = PriorityQueue() #vytvoření queue
-        priorityQueue.put((self.priority(self.startBoard, 0), 0, self.startBoard.tiles)) #přidání startovního stavu do queue (priority, depth, board)
+        priorityQueue.put((self.priority(self.startBoard, 0), 0, self.startBoard.tiles, path)) #přidání startovního stavu do queue (priority, depth, board)
+
+        if self.startBoard.isSolvable() == False: #pokud není možné dosáhnout cíle
+            return Output(None, None, None)
 
         while not priorityQueue.empty():
-            priority, depth, board = priorityQueue.get()
-            print(priority, depth, board)
+            priority, depth, board, path = priorityQueue.get()
             newBoard = Board(board)
             if newBoard.isGoal(self.goalBoard.tiles): #pokud je dosaženo cíle
-                return Output(nodesExplored, depth) #vrátí výstup
+                return Output(nodesExplored, depth, path) #vrátí výstup
 
             visited.append(board) #přidání boardu do navštívených
 
@@ -36,6 +46,7 @@ class Astar:
                 if neighbor not in visited:
                     nodesExplored += 1
                     nDepth = depth + 1
-                    priorityQueue.put((self.priority(neighbor, nDepth), nDepth, neighbor.tiles))
+                    nPath = self.addPath(path, neighbor)
+                    priorityQueue.put((self.priority(neighbor, nDepth), nDepth, neighbor.tiles, nPath))
 
         return None
