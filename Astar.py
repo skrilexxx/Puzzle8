@@ -38,7 +38,6 @@ class Astar:
             priority, depth, board, path = priorityQueue.get()
             newBoard = Board(board)
             if newBoard.isGoal(self.goalBoard.tiles): #pokud je dosaženo cíle
-                nPath = self.addPath(path, newBoard)
                 return Output(nodesExplored, depth, nPath) #vrátí výstup
 
             visited.append(board) #přidání boardu do navštívených
